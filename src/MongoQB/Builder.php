@@ -20,7 +20,7 @@ class Builder
         'persist'   =>  true,
         'persist_key'   =>  'mongoqb',
         'replica_set'   =>  false,
-        'query_safety'  =>  'safe'
+        'query_safety'  =>  'w'
     );
 
     /**
@@ -1239,11 +1239,11 @@ class Builder
         }
 
         try {
-            $this->_dbhandle->{$collection}->remove($this->wheres,
+            $ret = $this->_dbhandle->{$collection}->remove($this->wheres,
              array($this->_querySafety => true, 'justOne' => true));
             $this->_clear($collection, 'delete');
 
-            return true;
+            return $ret;
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
@@ -1272,11 +1272,11 @@ class Builder
         }
 
         try {
-            $this->_dbhandle->{$collection}->remove($this->wheres,
+            $ret = $this->_dbhandle->{$collection}->remove($this->wheres,
              array($this->_querySafety => true, 'justOne' => false));
             $this->_clear($collection, 'delete_all');
 
-            return true;
+            return $ret;
         }
         // @codeCoverageIgnoreStart
         catch (\MongoCursorException $Exception) {
