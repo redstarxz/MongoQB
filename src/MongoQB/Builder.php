@@ -764,15 +764,8 @@ class Builder
 
         $documents = array();
 
-        while ($cursor->hasNext()) {
-            try {
-                $documents[] = $cursor->getNext();
-            }
-            // @codeCoverageIgnoreStart
-            catch (\MongoCursorException $Exception) {
-                throw new \MongoQB\Exception($Exception->getMessage());
-                // @codeCoverageIgnoreEnd
-            }
+        foreach ($cursor as $c) {
+            $documents[] = $c;
         }
 
         return $documents;
